@@ -45,7 +45,6 @@ jobs:
       - name: 'Login to Azure'
         uses: azure/login@v1
         with:
-          # CORREÇÃO: Explicitamente definimos o tipo de autenticação
           auth-type: 'servicePrincipal' 
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
