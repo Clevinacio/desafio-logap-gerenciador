@@ -1,0 +1,38 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <springProperty scope="context" name="springAppName" source="spring.application.name" defaultValue="meu-app"/>
+
+    <!-- Appender para texto simples (desenvolvimento) -->
+    <appender name="CONSOLE_PLAIN" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- Adicionamos os campos do MDC ao log de texto para facilitar o debug -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%X{correlationId:-}] [%X{user:-}] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Appender para JSON (produção) -->
+    <appender name="CONSOLE_JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <!-- Os campos do MDC serão adicionados automaticamente ao JSON -->
+        </encoder>
+    </appender>
+
+    <!-- Configuração para o perfil de DESENVOLVIMENTO ('local') -->
+    <springProfile name="local">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE_PLAIN"/>
+        </root>
+    </springProfile>
+
+    <!-- Configuração para o perfil de PRODUÇÃO -->
+    <springProfile name="production">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE_JSON"/>
+        </root>
+    </springProfile>
+
+    <!-- Configuração PADRÃO (fallback) -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE_PLAIN"/>
+    </root>
+</configuration>
