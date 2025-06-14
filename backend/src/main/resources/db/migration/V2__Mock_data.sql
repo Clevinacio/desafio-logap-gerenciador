@@ -1,7 +1,7 @@
 -- Script para inserir dados de teste (mock) no banco de dados.
 
 -- Inserir Usuários (Clientes e um Vendedor adicional)
--- A senha para todos é 'senha123'
+-- A senha para todos é 'SenhaForte123!'
 INSERT INTO usuarios (nome, email, senha, perfil) VALUES
                                                       ('Ana Silva', 'ana.silva@email.com', '$2a$10$dcuNxJmReaF3m7BXjYP4vuoNUPatumWENZsbdc715OeKwsVR4L9am', 'CLIENTE'),
                                                       ('Bruno Costa', 'bruno.costa@email.com', '$2a$10$dcuNxJmReaF3m7BXjYP4vuoNUPatumWENZsbdc715OeKwsVR4L9am', 'CLIENTE'),
