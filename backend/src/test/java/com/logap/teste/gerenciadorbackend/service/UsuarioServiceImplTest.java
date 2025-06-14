@@ -6,6 +6,7 @@ import com.logap.teste.gerenciadorbackend.dto.request.UsuarioUpdateRequest;
 import com.logap.teste.gerenciadorbackend.exception.BusinessException;
 import com.logap.teste.gerenciadorbackend.model.Usuario;
 import com.logap.teste.gerenciadorbackend.model.enums.Perfil;
+import com.logap.teste.gerenciadorbackend.repository.PedidoRepository;
 import com.logap.teste.gerenciadorbackend.repository.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,12 +26,14 @@ class UsuarioServiceImplTest {
     private UsuarioRepository usuarioRepository;
     private PasswordEncoder passwordEncoder;
     private UsuarioServiceImpl usuarioService;
+    private PedidoRepository pedidoRepository;
 
     @BeforeEach
     void setUp() {
         usuarioRepository = mock(UsuarioRepository.class);
         passwordEncoder = mock(PasswordEncoder.class);
-        usuarioService = new UsuarioServiceImpl(usuarioRepository, passwordEncoder);
+        pedidoRepository = mock(PedidoRepository.class);
+        usuarioService = new UsuarioServiceImpl(usuarioRepository, passwordEncoder, pedidoRepository);
     }
 
     @Test
@@ -222,5 +225,22 @@ class UsuarioServiceImplTest {
         assertEquals("Você não pode excluir sua própria conta de administrador.", exception.getMessage());
         verify(usuarioRepository, never()).deleteById(any());
     }
+
+    @Test
+    void naoDeveDeletarUsuarioComPedidosAssociados() {
+        Long idUsuario = 1L;
+        String adminEmail = "admin@teste.com";
+        Usuario usuario = new Usuario();
+        usuario.setId(idUsuario);
+        usuario.setEmail(adminEmail);
+
+        when(usuarioRepository.findById(idUsuario)).thenReturn(Optional.of(usuario));
+        when(pedidoRepository.existsByClienteId(idUsuario)).thenReturn(true);
+        BusinessException exception = assertThrows(BusinessException.class, () ->
+                usuarioService.deletarUsuario(idUsuario, adminEmail)
+        );
+        assertEquals("Não é possível excluir um usuário que possui pedidos associados.", exception.getMessage());
+        verify(usuarioRepository, never()).deleteById(any());
+}
 
 }

@@ -92,7 +92,7 @@ public class PedidoControllerIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void devePermitirCriarPedidoComEstoqueInsuficiente() throws Exception {
+    void NaodevePermitirCriarPedidoComEstoqueInsuficiente() throws Exception {
         Usuario cliente = criarClienteDeTeste();
         Produto produto = criarProdutoDeTeste("Mouse Sem Fio", 5);
         String token = obterTokenDeLogin(cliente.getEmail());
@@ -104,13 +104,7 @@ public class PedidoControllerIntegrationTest extends AbstractIntegrationTest {
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(pedidoRequest)))
-                .andExpect(status().isCreated());
-
-        Produto produtoNaoAlterado = produtoRepository.findById(produto.getId()).orElseThrow(
-                () -> new AssertionError("Produto não encontrado após tentativa de criação do pedido")
-        );
-        // Estoque não deve ser alterado
-        assertThat(produtoNaoAlterado.getQuantidadeEstoque()).isEqualTo(5);
+                .andExpect(status().isBadRequest());
     }
 
     @Test
