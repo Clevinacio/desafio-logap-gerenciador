@@ -7,13 +7,15 @@ WORKDIR /app
 
 # Copia o pom.xml e baixa as dependências.
 COPY pom.xml .
-RUN mvn dependency:go-offline
+RUN --mount=type=cache,target=/root/.m2 \
+    mvn dependency:go-offline
 
 # Copia o restante do código-fonte
 COPY src ./src
 
 # Compila a aplicação e gera o arquivo .jar, pulando os testes
-RUN mvn package -DskipTests
+RUN --mount=type=cache,target=/root/.m2 \
+    mvn package -DskipTests
 
 # ================= STAGE 2: Run =================
 # Usa uma imagem contendo apenas o Java Runtime Environment (JRE)

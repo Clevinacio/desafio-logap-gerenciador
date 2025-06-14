@@ -39,6 +39,9 @@ jobs:
 
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
+    env:
+      DOCKER_BUILDKIT: 1
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -61,7 +64,11 @@ jobs:
 
       - name: Docker Build and Push
         run: |
-          docker build ./backend -t ${{ secrets.ACR_LOGIN_SERVER }}/gerenciador-backend:${{ github.sha }}
+          docker build \
+            --progress=plain \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            ./backend \
+            -t ${{ secrets.ACR_LOGIN_SERVER }}/gerenciador-backend:${{ github.sha }}
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/gerenciador-backend:${{ github.sha }}
 
       - name: Deploy to App Service (using ACR image)
