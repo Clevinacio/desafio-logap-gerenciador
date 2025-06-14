@@ -5,6 +5,7 @@ import com.logap.teste.gerenciadorbackend.dto.response.UsuarioResponse;
 import com.logap.teste.gerenciadorbackend.dto.request.UsuarioUpdateRequest;
 import com.logap.teste.gerenciadorbackend.exception.BusinessException;
 import com.logap.teste.gerenciadorbackend.model.Usuario;
+import com.logap.teste.gerenciadorbackend.repository.PedidoRepository;
 import com.logap.teste.gerenciadorbackend.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder encoder;
+    private final PedidoRepository pedidoRepository;
 
     @Override
     public UsuarioResponse criarUsuario(UsuarioCreateRequest request) {
@@ -59,6 +61,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void deletarUsuario(Long idUsuario, String adminEmail) {
         Usuario usuarioASerDeletado = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new BusinessException("Usuário não encontrado com ID: " + idUsuario));
+        boolean usuarioPossuiPedidos = pedidoRepository.existsByClienteId(usuarioASerDeletado.getId());
+
+        if (usuarioPossuiPedidos) {
+            throw new BusinessException("Não é possível excluir um usuário que possui pedidos associados.");
+        }
 
         // Regra de negócio: Impede que um administrador exclua a própria conta
         if (usuarioASerDeletado.getEmail().equals(adminEmail)) {

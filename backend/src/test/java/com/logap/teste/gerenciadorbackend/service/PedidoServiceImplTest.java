@@ -113,7 +113,7 @@ class PedidoServiceImplTest {
                 .id(10L)
                 .nome("Produto Teste")
                 .preco(new BigDecimal("20.00"))
-                .quantidadeEstoque(1)
+                .quantidadeEstoque(10)
                 .build();
         ItemPedidoRequest itemRequest = new ItemPedidoRequest(produto.getId(), 2);
         PedidoRequest pedidoRequest = new PedidoRequest(List.of(itemRequest));

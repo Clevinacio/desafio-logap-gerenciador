@@ -13,6 +13,7 @@ import PedidoConfirmadoPage from "./pages/PedidoConfirmado";
 import MeusPedidosPage from "./pages/MeusPedidosPage";
 import PedidoDetalhadoPage from "./pages/PedidoDetalhadoPage";
 import RelatoriosPage from "./pages/RelatoriosPage";
+import RoleBasedRoute from "./components/RoleBasedRoute";
 
 const PlaceholderPage = ({ title }: { title: string }) => (
   <div>
@@ -36,27 +37,43 @@ function App() {
               <Layout>
                 <Routes>
                   <Route path="/dashboard" element={<HomePage />} />
-                  <Route path="/pedidos" element={<PedidosPage />} />
-                  <Route
-                    path="/pedidos/:id"
-                    element={<PedidoDetalhadoPage />}
-                  />
-                  <Route path="/meus-pedidos" element={<MeusPedidosPage />} />
-                  <Route
-                    path="/meus-pedidos/:id"
-                    element={<PedidoDetalhadoPage />}
-                  />
                   <Route path="/produtos" element={<ProdutosRouter />} />
-                  <Route path="/usuarios" element={<UsuariosPage />} />
                   <Route
-                    path="/relatorios"
-                    element={<RelatoriosPage />}
-                  />
-                  <Route path="/carrinho" element={<CartPage />} />
+                    element={<RoleBasedRoute allowedRoles={["CLIENTE"]} />}
+                  >
+                    <Route path="/meus-pedidos" element={<MeusPedidosPage />} />
+                    <Route
+                      path="/meus-pedidos/:id"
+                      element={<PedidoDetalhadoPage />}
+                    />
+                    <Route path="/carrinho" element={<CartPage />} />
+                    <Route
+                      path="/pedido-confirmado/:id"
+                      element={<PedidoConfirmadoPage />}
+                    />
+                  </Route>
                   <Route
-                    path="/pedido-confirmado/:id"
-                    element={<PedidoConfirmadoPage />}
-                  />
+                    element={
+                      <RoleBasedRoute
+                        allowedRoles={["VENDEDOR", "ADMINISTRADOR"]}
+                      />
+                    }
+                  >
+                    <Route path="/pedidos" element={<PedidosPage />} />
+                    <Route
+                      path="/pedidos/:id"
+                      element={<PedidoDetalhadoPage />}
+                    />
+                  </Route>
+                  <Route
+                    element={
+                      <RoleBasedRoute allowedRoles={["ADMINISTRADOR"]} />
+                    }
+                  >
+                    <Route path="/usuarios" element={<UsuariosPage />} />
+                    <Route path="/relatorios" element={<RelatoriosPage />} />
+                  </Route>
+
                   <Route
                     path="*"
                     element={<PlaceholderPage title="Página não encontrada" />}

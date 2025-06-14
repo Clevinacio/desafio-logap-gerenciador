@@ -35,4 +35,6 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
     @Query("SELECT new com.logap.teste.gerenciadorbackend.dto.dashboard.ActiveCustomerDTO(p.cliente.nome, COUNT(p)) " +
             "FROM Pedido p GROUP BY p.cliente.nome ORDER BY COUNT(p) DESC LIMIT 5")
     List<ActiveCustomerDTO> findTop5Clientes();
+
+    boolean existsByClienteId(Long id);
 }
