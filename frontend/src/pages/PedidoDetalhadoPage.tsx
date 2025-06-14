@@ -23,6 +23,7 @@ import {
 } from "../components/ui/table";
 import { Badge } from "../components/ui/badge";
 import { ArrowLeft } from "lucide-react";
+import { isAxiosError } from "axios";
 
 // --- Tipos ---
 type StatusPedido =
@@ -93,16 +94,12 @@ const PedidoDetalhadoPage = () => {
     try {
       await api.patch(`/pedidos/${id}/status`, { novoStatus });
       toast.success("Status alterado com sucesso!", { id: "status-update" });
-      fetchPedido(); // Re-busca os dados para atualizar a tela
-    } catch (error: unknown) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : (error as { response?: { data?: { message?: string } } })?.response
-              ?.data?.message || "Falha ao alterar status.";
-      toast.error(errorMessage, {
-        id: "status-update",
-      });
+      fetchPedido();
+    } catch (error) {
+      if(isAxiosError(error) && error.response) {
+        const errorMessage = error.response.data?.message || "Erro ao atualizar status";
+        toast.error(errorMessage, { id: "status-update" });
+      }
     }
   };
   const getStatusVariant = (

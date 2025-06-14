@@ -30,7 +30,7 @@ const PedidoConfirmadoPage = () => {
         <CardContent>
           <div className="flex justify-center gap-4">
             <Button asChild>
-              <Link to="/">Voltar para a Página Inicial</Link>
+              <Link to="/dashboard">Voltar para a Página Inicial</Link>
             </Button>
             <Button asChild variant="outline">
               <Link to="/meus-pedidos">Ver Meus Pedidos</Link>
