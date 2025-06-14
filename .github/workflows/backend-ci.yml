@@ -41,6 +41,9 @@ jobs:
         run: mvn -B verify --file backend/pom.xml
 
       - name: SonarCloud Scan
+        # Run SonarCloud scan if:
+        # - The event is a pull request targeting the 'develop' branch, or
+        # - The event is a push to the 'main' branch.
         if: (github.event_name == 'pull_request' && github.base_ref == 'develop') || (github.event_name == 'push' && github.ref == 'refs/heads/main')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
