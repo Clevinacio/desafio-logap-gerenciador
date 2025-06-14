@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, type ReactNode, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import api from "../services/api";
+import { APP_CONFIG } from "../config/app.config";
 
 interface User {
   sub: string;
@@ -26,33 +26,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem(APP_CONFIG.auth.tokenKey);
     if (token) {
       try {
         const decodedUser: User = jwtDecode(token);
         setUser(decodedUser);
-        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       } catch (error) {
         console.error("Token inválido ou expirado", error);
-        localStorage.removeItem("authToken");
-      } finally {
-        setIsLoading(false);
+        localStorage.removeItem(APP_CONFIG.auth.tokenKey);
       }
     }
+    setIsLoading(false);
   }, []);
 
   const login = (token: string) => {
-    localStorage.setItem("authToken", token);
+    localStorage.setItem(APP_CONFIG.auth.tokenKey, token);
     const decodedUser: User = jwtDecode(token);
     setUser(decodedUser);
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     setIsLoading(false);
   };
 
   const logout = () => {
-    localStorage.removeItem("authToken");
+    localStorage.removeItem(APP_CONFIG.auth.tokenKey);
     setUser(null);
-    delete api.defaults.headers.common["Authorization"];
   };
 
   const value = {
