@@ -46,6 +46,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const decodedUser: User = jwtDecode(token);
     setUser(decodedUser);
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    setIsLoading(false);
   };
 
   const logout = () => {

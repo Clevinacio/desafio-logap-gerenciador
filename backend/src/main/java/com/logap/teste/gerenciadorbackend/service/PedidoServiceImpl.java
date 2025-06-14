@@ -47,6 +47,10 @@ public class PedidoServiceImpl implements PedidoService {
             Produto produto = produtoRepository.findById(itemRequest.produtoId())
                     .orElseThrow(() -> new BusinessException("Produto não encontrado: " + itemRequest.produtoId()));
 
+            if (produto.getQuantidadeEstoque() < itemRequest.quantidade()) {
+                throw new BusinessException("Estoque insuficiente para o produto: " + produto.getNome());
+            }
+
             ItemPedido itemPedido = ItemPedido.builder()
                     .produto(produto)
                     .quantidade(itemRequest.quantidade())

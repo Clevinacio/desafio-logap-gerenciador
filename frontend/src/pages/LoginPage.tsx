@@ -38,7 +38,9 @@ const LoginPage = () => {
       login(response.data.token);
       setTimeout(() => {
         navigate('/dashboard');
-      }, 500);
+      }
+      , 1000); // Redireciona após 1 segundo
+        
 
     } catch (err) {
       console.error('Erro no login:', err);
