@@ -36,7 +36,9 @@ const LoginPage = () => {
       });
       console.log('Login bem-sucedido:', response.data);
       login(response.data.token);
-      navigate('/dashboard');
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 500);
 
     } catch (err) {
       console.error('Erro no login:', err);
