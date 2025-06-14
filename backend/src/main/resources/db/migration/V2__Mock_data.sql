@@ -3,13 +3,13 @@
 -- Inserir Usuários (Clientes e um Vendedor adicional)
 -- A senha para todos é 'senha123'
 INSERT INTO usuarios (nome, email, senha, perfil) VALUES
-                                                      ('Ana Silva', 'ana.silva@email.com', '$2a$10$w4.g.y.T.xZ7K.rYc.QZ..42eENyYl1Rj8d2T/oE/O3e2jYh.MvI2', 'CLIENTE'),
-                                                      ('Bruno Costa', 'bruno.costa@email.com', '$2a$10$w4.g.y.T.xZ7K.rYc.QZ..42eENyYl1Rj8d2T/oE/O3e2jYh.MvI2', 'CLIENTE'),
-                                                      ('Carla Dias', 'carla.dias@email.com', '$2a$10$w4.g.y.T.xZ7K.rYc.QZ..42eENyYl1Rj8d2T/oE/O3e2jYh.MvI2', 'CLIENTE'),
-                                                      ('Daniel Faria', 'daniel.faria@email.com', '$2a$10$w4.g.y.T.xZ7K.rYc.QZ..42eENyYl1Rj8d2T/oE/O3e2jYh.MvI2', 'CLIENTE'),
-                                                      ('Eduarda Lima', 'eduarda.lima@email.com', '$2a$10$w4.g.y.T.xZ7K.rYc.QZ..42eENyYl1Rj8d2T/oE/O3e2jYh.MvI2', 'CLIENTE'),
-                                                      ('Fernanda Souza', 'fernanda.souza@email.com', '$2a$10$w4.g.y.T.xZ7K.rYc.QZ..42eENyYl1Rj8d2T/oE/O3e2jYh.MvI2', 'CLIENTE'),
-                                                      ('Vendedor Loja', 'vendedor.loja@vendas.com', '$2a$10$w4.g.y.T.xZ7K.rYc.QZ..42eENyYl1Rj8d2T/oE/O3e2jYh.MvI2', 'VENDEDOR');
+                                                      ('Ana Silva', 'ana.silva@email.com', '$2a$10$dcuNxJmReaF3m7BXjYP4vuoNUPatumWENZsbdc715OeKwsVR4L9am', 'CLIENTE'),
+                                                      ('Bruno Costa', 'bruno.costa@email.com', '$2a$10$dcuNxJmReaF3m7BXjYP4vuoNUPatumWENZsbdc715OeKwsVR4L9am', 'CLIENTE'),
+                                                      ('Carla Dias', 'carla.dias@email.com', '$2a$10$dcuNxJmReaF3m7BXjYP4vuoNUPatumWENZsbdc715OeKwsVR4L9am', 'CLIENTE'),
+                                                      ('Daniel Faria', 'daniel.faria@email.com', '$2a$10$dcuNxJmReaF3m7BXjYP4vuoNUPatumWENZsbdc715OeKwsVR4L9am', 'CLIENTE'),
+                                                      ('Eduarda Lima', 'eduarda.lima@email.com', '$2a$10$dcuNxJmReaF3m7BXjYP4vuoNUPatumWENZsbdc715OeKwsVR4L9am', 'CLIENTE'),
+                                                      ('Fernanda Souza', 'fernanda.souza@email.com', '$2a$10$dcuNxJmReaF3m7BXjYP4vuoNUPatumWENZsbdc715OeKwsVR4L9am', 'CLIENTE'),
+                                                      ('Vendedor Loja', 'vendedor.loja@vendas.com', '$2a$10$dcuNxJmReaF3m7BXjYP4vuoNUPatumWENZsbdc715OeKwsVR4L9am', 'VENDEDOR');
 
 -- Inserir Produtos
 INSERT INTO produtos (nome, descricao, preco, qtd_estoque) VALUES
