@@ -48,9 +48,8 @@ jobs:
         # - The event is a push to the 'main' branch.
         if: (github.event_name == 'pull_request' && github.base_ref == 'develop') || (github.event_name == 'push' && github.ref == 'refs/heads/main')
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file backend/pom.xml
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Clevinacio_desafio-logap-gerenciador
 
   deploy:
     name: Deploy to Azure App Service
