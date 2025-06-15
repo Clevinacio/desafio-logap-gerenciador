@@ -87,7 +87,7 @@ const MeusPedidosPage = () => {
   }
 
   const handleRowClick = (pedidoId: number) => {
-    navigate(`/pedidos/${pedidoId}`);
+    navigate(`/meus-pedidos/${pedidoId}`);
   };
 
   return (
