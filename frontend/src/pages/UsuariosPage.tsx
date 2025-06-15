@@ -132,6 +132,7 @@ const UserFormDialog = ({ user, onSave, onClose }: UserFormProps) => {
               onChange={(e) => setName(e.target.value)}
               className="col-span-3"
               required
+              disabled={!!user}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
