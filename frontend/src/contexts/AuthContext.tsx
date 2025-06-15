@@ -38,6 +38,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       } finally {
         setIsLoading(false);
       }
+    } else {
+      setIsLoading(false);
+      setUser(null);
+      delete api.defaults.headers.common["Authorization"];
     }
   }, []);
 
