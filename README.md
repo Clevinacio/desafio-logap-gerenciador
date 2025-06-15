@@ -339,7 +339,7 @@ Steps:
 
 #### Produção
 - **Frontend**: [Azure Static Web Apps](https://calm-pond-04ff1b10f.6.azurestaticapps.net/)
-- **Backend**: [Azure App Service](https://gerenciador-backend-b2etf5h9bbdreebb.brazilsouth-01.azurewebsites.net/gerenciador/api/v1)(Link da API para uso com ferramente de requisições)
+- **Backend**: [Azure App Service](https://gerenciador-backend-b2etf5h9bbdreebb.brazilsouth-01.azurewebsites.net/gerenciador/api/v1)(Link da API para uso com ferramenta de requisições)
 
 #### Staging
 - Mesmo pipeline, branch `develop`
