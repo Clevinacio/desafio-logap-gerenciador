@@ -341,32 +341,82 @@ Steps:
 - **Frontend**: [Azure Static Web Apps](https://calm-pond-04ff1b10f.6.azurestaticapps.net/)
 - **Backend**: [Azure App Service](https://gerenciador-backend-b2etf5h9bbdreebb.brazilsouth-01.azurewebsites.net/gerenciador/api/v1)(Link da API para uso com ferramenta de requisições)
 
-#### Staging
-- Mesmo pipeline, branch `develop`
-- Ambiente para testes de aceitação
+### 📋 API Endpoints
 
-### Variáveis de Ambiente
+A API ainda não está documentada com Swagger. Todos os endpoints seguem o padrão REST e retornam respostas em JSON.
 
-#### Backend
-```properties
-# Database
-SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/gerenciador
-SPRING_DATASOURCE_USERNAME=postgres
-SPRING_DATASOURCE_PASSWORD=password
-
-# Security
-JWT_SECRET=your-very-secure-secret-key-here
-JWT_EXPIRATION=86400000
-
-# Admin User
-ADMIN_NAME=Administrador
-ADMIN_EMAIL=admin@gerenciador.com
-ADMIN_PASSWORD=admin123
-
-# Profile
-SPRING_PROFILES_ACTIVE=production
+#### Base URL
+```
+Produção: https://gerenciador-backend-b2etf5h9bbdreebb.brazilsouth-01.azurewebsites.net/gerenciador/api/v1
+Local: http://localhost:8080/gerenciador/api/v1
 ```
 
-#### Frontend
-```env
-VITE_API_BASE_URL=http://localhost:8080 (Para ambiente local)
+#### 🔐 Autenticação
+
+| Método | Endpoint | Acesso | Descrição |
+|--------|----------|--------|-----------|
+| `POST` | `/auth/login` | Público | Realiza login e retorna JWT token |
+
+**Request Body:**
+```json
+{
+  "email": "admin@gerenciador.com",
+  "senha": "SenhaForte123!"
+}
+```
+
+#### 👥 Usuários
+
+| Método | Endpoint | Acesso | Descrição |
+|--------|----------|--------|-----------|
+| `GET` | `/usuarios` | Admin | Lista todos os usuários do sistema |
+| `POST` | `/usuarios` | Admin | Cadastra novo usuário |
+| `PATCH` | `/usuarios/{id}/perfil` | Admin | Atualiza perfil/role de usuário |
+| `DELETE` | `/usuarios/{id}` | Admin | Remove usuário do sistema |
+
+#### 📦 Produtos
+
+| Método | Endpoint | Acesso | Descrição |
+|--------|----------|--------|-----------|
+| `GET` | `/produtos` | Todos* | Lista produtos com paginação |
+| `POST` | `/produtos` | Admin/Vendedor | Cadastra novo produto |
+| `PATCH` | `/produtos/{id}/estoque` | Admin/Vendedor | Atualiza estoque do produto |
+| `DELETE` | `/produtos/{id}` | Admin/Vendedor | Remove produto |
+
+#### 🛒 Pedidos
+
+| Método | Endpoint | Acesso | Descrição |
+|--------|----------|--------|-----------|
+| `GET` | `/pedidos` | Todos* | Lista pedidos (contexto por role) |
+| `POST` | `/pedidos` | Todos* | Cria novo pedido |
+| `GET` | `/pedidos/{id}` | Todos* | Busca pedido específico |
+| `PATCH` | `/pedidos/{id}/status` | Admin/Vendedor | Atualiza status do pedido |
+
+#### 📊 Dashboard
+
+| Método | Endpoint | Acesso | Descrição |
+|--------|----------|--------|-----------|
+| `GET` | `/dashboard/stats` | Admin | Métricas gerenciais do sistema |
+
+### 🔒 Níveis de Acesso
+
+| Role | Descrição | Permissões |
+|------|-----------|------------|
+| **ADMINISTRADOR** | Acesso total ao sistema | Todas as funcionalidades |
+| **VENDEDOR** | Gestão de produtos e pedidos | Produtos, pedidos e aprovações |
+| **CLIENTE** | Acesso limitado | Criar pedidos, visualizar histórico |
+
+**\*Todos**: Requer autenticação JWT válida. Contexto varia por role:
+- **Cliente**: Vê apenas seus próprios dados
+- **Vendedor**: Vê todos os pedidos e produtos
+- **Admin**: Vê todos os dados do sistema
+
+### 🔑 Autenticação JWT
+
+Todos os endpoints (exceto `/auth/login`) requerem o header:
+```
+Authorization: Bearer {jwt_token}
+```
+
+**Token expires em**: 24 horas
+**Refresh**: Requer novo login após expiração
