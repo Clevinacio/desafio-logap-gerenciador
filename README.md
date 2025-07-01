@@ -325,7 +325,7 @@ Steps:
 
 ### Ferramentas de Qualidade
 
-#### SonarCloud
+#### SonarCloud ([link](https://sonarcloud.io/project/overview?id=Clevinacio_desafio-logap-gerenciador))
 - **Quality Gate**: Passa
 - **Coverage**: >80%
 - **Duplicação**: <3%
