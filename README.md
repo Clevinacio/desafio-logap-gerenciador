@@ -254,7 +254,7 @@ Após a primeira execução, um usuário administrador será criado automaticame
 
 ```
 Email: admin@gerenciador.com
-Senha: admin123
+Senha: SenhaForte123!
 ```
 
 ## 🧪 Testes
